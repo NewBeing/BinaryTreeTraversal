@@ -33,3 +33,41 @@ public:
         return result;
     }
 };
+
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode *> s;
+        TreeNode * t;
+        //s.push(root->right);
+        s.push(root);
+        
+        while(!s.empty()){
+            t = s.top();
+            s.pop();
+            if(t->right){
+                s.push(t->right);
+                s.push(t);
+            }
+            if(t->left){
+                s.push(t->left);
+            }
+            else{
+                
+                result.push_back(t->val);    
+            }
+        }
+        return result;
+    }
+};
