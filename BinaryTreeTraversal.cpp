@@ -23,7 +23,7 @@ public:
             t = s.top();
             s.pop();
             result.push_back(t->val);
-            if(t->right){
+            if(t->right){//右孩子先入栈
                 s.push(t->right);
             }
             if(t->left){
@@ -49,23 +49,22 @@ public:
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int> result;
         stack<TreeNode *> s;
-        TreeNode * t;
-        //s.push(root->right);
-        s.push(root);
+        TreeNode * t = root;
+      
+        if (t == NULL)
+            return result;
         
-        while(!s.empty()){
-            t = s.top();
-            s.pop();
-            if(t->right){
-                s.push(t->right);
+        while(!s.empty() || t){
+            
+            if(t){
                 s.push(t);
-            }
-            if(t->left){
-                s.push(t->left);
+                t = t->left;
             }
             else{
-                
-                result.push_back(t->val);    
+                t = s.top();
+                result.push_back(t->val);  
+                s.pop();
+                t = t->right;              
             }
         }
         return result;
