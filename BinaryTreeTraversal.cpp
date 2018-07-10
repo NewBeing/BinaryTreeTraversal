@@ -79,7 +79,48 @@ public:
  *     TreeNode *right;
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
+ **/
+/**
+ 方法1：
+ 要保证根结点在左孩子和右孩子访问之后才能访问，因此对于任一结点P，先将其入栈。
+ 如果P不存在左孩子和右孩子，则可以直接访问它；或者P存在左孩子或者右孩子，但是
+ 其左孩子和右孩子都已被访问过了，则同样可以直接访问该结点。若非上述两种情况，
+ 则将P的右孩子和左孩子依次入栈，这样就保证了每次取栈顶元素的时候，左孩子在右
+ 孩子前面被访问，左孩子和右孩子都在根结点前面被访问。
  */
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<TreeNode*> s;
+        TreeNode * t = root;
+        TreeNode* pre = NULL;  //记录刚刚访问过的节点
+        
+        if (t == NULL)
+            return result;
+        
+        s.push(t);
+        while(!s.empty()){
+            t = s.top();
+            if( (t->left == NULL && t->right == NULL) || (pre && (pre == t->left || pre == t->right))){
+                result.push_back(t->val);
+                pre = t;
+            }
+            else{
+                if(t->right){
+                    s.push(t->right);
+                }
+                if(t->left){
+                    s.push(t->left);
+                }
+            }
+        }
+        
+        return result;
+    }
+};
+
+/*方法2*/
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode* root) {
