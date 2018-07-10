@@ -55,13 +55,13 @@ public:
             return result;
         
         while(!s.empty() || t){
-            
+            //从根节点开始，每一个节点
             if(t){
                 s.push(t);
-                t = t->left;
+                t = t->left;//先遍历左子树
             }
-            else{
-                t = s.top();
+            else{//上一节点为叶子或者root
+                t = s.top();//
                 result.push_back(t->val);  
                 s.pop();
                 t = t->right;              
